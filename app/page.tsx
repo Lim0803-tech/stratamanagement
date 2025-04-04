@@ -9,54 +9,72 @@ import Link from "next/link"
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-background/80 dark:from-background dark:to-background/90">
-      <div className="container space-y-8 py-12">
-        <div className="flex flex-col space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            Dashboard
-          </h1>
-          <p className="text-muted-foreground text-lg">
-            Welcome to your strata management portal. Here's an overview of your building.
-          </p>
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-background via-background/95 to-background">
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute right-[10%] top-[5%] h-[300px] w-[300px] rounded-full bg-primary/20 blur-[100px]" />
+        <div className="absolute bottom-[10%] left-[10%] h-[250px] w-[250px] rounded-full bg-blue-500/20 blur-[100px]" />
+        <div className="absolute left-1/2 top-1/2 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-500/10 blur-[100px]" />
+        
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8882_1px,transparent_1px),linear-gradient(to_bottom,#8882_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,black_70%,transparent_110%)]" />
+      </div>
+
+      <div className="container relative space-y-8 py-12">
+        <div className="relative rounded-2xl border bg-card/30 p-6 shadow-xl backdrop-blur-lg">
+          <div className="flex flex-col space-y-2">
+            <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-br from-primary via-primary/80 to-muted-foreground bg-clip-text text-transparent">
+              Dashboard
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              Welcome to your strata management portal. Here's an overview of your building.
+            </p>
+          </div>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="hover:shadow-lg transition-all duration-200 hover:scale-[1.02] bg-card/50 backdrop-blur">
+          <Card className="group relative overflow-hidden border bg-card/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1 backdrop-blur-xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Units</CardTitle>
               <Users className="h-4 w-4 text-primary" />
             </CardHeader>
-            <CardContent>
+            <CardContent className="relative">
               <div className="text-2xl font-bold text-primary">24</div>
               <p className="text-xs text-muted-foreground">18 owner-occupied, 6 tenanted</p>
             </CardContent>
           </Card>
-          <Card className="hover:shadow-lg transition-all duration-200 hover:scale-[1.02] bg-card/50 backdrop-blur">
+
+          <Card className="group relative overflow-hidden border bg-card/50 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-1 backdrop-blur-xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Admin Fund</CardTitle>
               <DollarSign className="h-4 w-4 text-emerald-500" />
             </CardHeader>
-            <CardContent>
+            <CardContent className="relative">
               <div className="text-2xl font-bold text-emerald-500">$42,500</div>
               <p className="text-xs text-muted-foreground">+$3,200 from last quarter</p>
             </CardContent>
           </Card>
-          <Card className="hover:shadow-lg transition-all duration-200 hover:scale-[1.02] bg-card/50 backdrop-blur">
+
+          <Card className="group relative overflow-hidden border bg-card/50 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1 backdrop-blur-xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Capital Works Fund</CardTitle>
               <DollarSign className="h-4 w-4 text-blue-500" />
             </CardHeader>
-            <CardContent>
+            <CardContent className="relative">
               <div className="text-2xl font-bold text-blue-500">$128,750</div>
               <p className="text-xs text-muted-foreground">+$8,500 from last quarter</p>
             </CardContent>
           </Card>
-          <Card className="hover:shadow-lg transition-all duration-200 hover:scale-[1.02] bg-card/50 backdrop-blur">
+
+          <Card className="group relative overflow-hidden border bg-card/50 transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/10 hover:-translate-y-1 backdrop-blur-xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Open Requests</CardTitle>
               <Wrench className="h-4 w-4 text-orange-500" />
             </CardHeader>
-            <CardContent>
+            <CardContent className="relative">
               <div className="text-2xl font-bold text-orange-500">7</div>
               <p className="text-xs text-muted-foreground">3 urgent, 4 standard</p>
             </CardContent>
@@ -64,14 +82,16 @@ export default function Dashboard() {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="bg-background/95 backdrop-blur">
+          <TabsList className="bg-background/50 backdrop-blur-xl border">
             <TabsTrigger value="overview" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Overview</TabsTrigger>
             <TabsTrigger value="upcoming" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Upcoming</TabsTrigger>
             <TabsTrigger value="notices" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Notices</TabsTrigger>
           </TabsList>
+
           <TabsContent value="overview" className="space-y-6">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <Card className="hover:shadow-lg transition-all duration-200 bg-card/50 backdrop-blur">
+              <Card className="group relative overflow-hidden border bg-card/50 transition-all duration-300 hover:shadow-xl backdrop-blur-xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Wrench className="h-5 w-5 text-primary" />
@@ -79,7 +99,7 @@ export default function Dashboard() {
                   </CardTitle>
                   <CardDescription>Latest maintenance requests</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="relative space-y-4">
                   <div className="flex justify-between items-start">
                     <div>
                       <p className="font-medium">Lobby Light Replacement</p>
@@ -112,7 +132,9 @@ export default function Dashboard() {
                   </Button>
                 </CardContent>
               </Card>
-              <Card className="hover:shadow-lg transition-all duration-200 bg-card/50 backdrop-blur">
+
+              <Card className="group relative overflow-hidden border bg-card/50 transition-all duration-300 hover:shadow-xl backdrop-blur-xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <DollarSign className="h-5 w-5 text-emerald-500" />
@@ -120,7 +142,7 @@ export default function Dashboard() {
                   </CardTitle>
                   <CardDescription>Current quarter overview</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="relative space-y-4">
                   <div className="flex justify-between items-center p-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/20">
                     <span className="text-sm font-medium">Levy Income</span>
                     <span className="font-medium text-emerald-600 dark:text-emerald-400">$32,400</span>
@@ -142,7 +164,9 @@ export default function Dashboard() {
                   </Button>
                 </CardContent>
               </Card>
-              <Card className="hover:shadow-lg transition-all duration-200 bg-card/50 backdrop-blur">
+
+              <Card className="group relative overflow-hidden border bg-card/50 transition-all duration-300 hover:shadow-xl backdrop-blur-xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <FileText className="h-5 w-5 text-blue-500" />
@@ -150,7 +174,7 @@ export default function Dashboard() {
                   </CardTitle>
                   <CardDescription>Latest uploaded documents</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="relative space-y-4">
                   <div className="group p-3 rounded-lg hover:bg-muted/50 transition-colors">
                     <div className="flex items-center gap-3">
                       <FileText className="h-4 w-4 text-blue-500" />
@@ -185,8 +209,10 @@ export default function Dashboard() {
               </Card>
             </div>
           </TabsContent>
+
           <TabsContent value="upcoming" className="space-y-4">
-            <Card className="hover:shadow-lg transition-all duration-200 bg-card/50 backdrop-blur">
+            <Card className="group relative overflow-hidden border bg-card/50 transition-all duration-300 hover:shadow-xl backdrop-blur-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <CalendarDays className="h-5 w-5 text-primary" />
@@ -228,22 +254,28 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </TabsContent>
+
           <TabsContent value="notices" className="space-y-4">
-            <Alert className="border-orange-500/50 bg-orange-500/10">
+            <Alert className="relative overflow-hidden border-orange-500/50 bg-orange-500/10 backdrop-blur-sm">
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-transparent to-transparent" />
               <AlertTriangle className="h-5 w-5 text-orange-500" />
               <AlertTitle className="text-orange-500">Important Notice</AlertTitle>
               <AlertDescription className="mt-2">
                 Water will be shut off on April 10th from 10:00 AM to 2:00 PM for essential maintenance.
               </AlertDescription>
             </Alert>
-            <Alert className="border-blue-500/50 bg-blue-500/10">
+
+            <Alert className="relative overflow-hidden border-blue-500/50 bg-blue-500/10 backdrop-blur-sm">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-transparent to-transparent" />
               <Bell className="h-5 w-5 text-blue-500" />
               <AlertTitle className="text-blue-500">Reminder</AlertTitle>
               <AlertDescription className="mt-2">
                 Quarterly strata levies are due by April 15th. Please ensure timely payment to avoid late fees.
               </AlertDescription>
             </Alert>
-            <Alert className="border-emerald-500/50 bg-emerald-500/10">
+
+            <Alert className="relative overflow-hidden border-emerald-500/50 bg-emerald-500/10 backdrop-blur-sm">
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-transparent to-transparent" />
               <MessageSquare className="h-5 w-5 text-emerald-500" />
               <AlertTitle className="text-emerald-500">Community Update</AlertTitle>
               <AlertDescription className="mt-2">
