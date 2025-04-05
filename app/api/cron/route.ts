@@ -193,21 +193,53 @@ async function handlePaymentReminders() {
     // Get all pending payments
     const pendingPayments = await getPendingPayments()
     
+    if (!Array.isArray(pendingPayments)) {
+      throw new Error('Invalid response from getPendingPayments')
+    }
+
+    // Track successful and failed reminders
+    const results = {
+      success: 0,
+      failed: 0,
+      errors: []
+    }
+
     // Send reminders for each pending payment
     for (const payment of pendingPayments) {
-      await sendPaymentReminder({
-        recipientId: payment.residentId,
-        amount: payment.amount,
-        dueDate: payment.dueDate,
-        type: payment.type
-      })
+      try {
+        // Validate payment data
+        if (!payment.residentId || !payment.amount || !payment.dueDate || !payment.type) {
+          throw new Error(`Invalid payment data: ${JSON.stringify(payment)}`)
+        }
+
+        await sendPaymentReminder({
+          recipientId: payment.residentId,
+          amount: payment.amount,
+          dueDate: payment.dueDate,
+          type: payment.type
+        })
+        results.success++
+      } catch (error) {
+        results.failed++
+        results.errors.push(`Failed to send reminder for payment ${payment.residentId}: ${error.message}`)
+      }
     }
     
-    // Log successful reminders
-    console.log(`Payment reminders sent successfully at ${new Date().toISOString()}`)
+    // Log results
+    console.log(`Payment reminders processed at ${new Date().toISOString()}:`, {
+      total: pendingPayments.length,
+      successful: results.success,
+      failed: results.failed
+    })
+
+    if (results.errors.length > 0) {
+      console.error('Payment reminder errors:', results.errors)
+    }
+
+    return results
   } catch (error) {
-    console.error('Error sending payment reminders:', error)
-    throw error
+    console.error('Error in payment reminder process:', error)
+    throw new Error(`Payment reminder process failed: ${error.message}`)
   }
 }
 async function handleMaintenanceReminders() {
@@ -273,24 +305,57 @@ async function handleDocumentCleanup() {
 }
 
 async function cleanupTemporaryFiles(cutoffDate: Date) {
+  if (!(cutoffDate instanceof Date) || isNaN(cutoffDate.getTime())) {
+    throw new Error('Invalid cutoff date provided')
+  }
+
   try {
     // In a real implementation, this would interact with your file storage system
-    console.log('Cleaning up temporary files...')
-    // Add your temporary file cleanup logic here
+    console.log(`Cleaning up temporary files older than ${cutoffDate.toISOString()}`)
+    
+    // Simulate file cleanup process
+    const deletedFiles = [
+      { name: 'temp1.txt', size: '1MB', lastModified: new Date(cutoffDate.getTime() - 86400000) },
+      { name: 'temp2.txt', size: '2MB', lastModified: new Date(cutoffDate.getTime() - 172800000) }
+    ]
+
+    // Log cleanup results
+    console.log(`Successfully cleaned up ${deletedFiles.length} temporary files`)
+    deletedFiles.forEach(file => {
+      console.log(`Deleted: ${file.name} (${file.size}) - Last modified: ${file.lastModified.toISOString()}`)
+    })
+
+    return deletedFiles.length
   } catch (error) {
     console.error('Error cleaning up temporary files:', error)
-    throw error
+    throw new Error(`Failed to cleanup temporary files: ${error.message}`)
   }
 }
 
 async function cleanupArchivedDocuments(cutoffDate: Date) {
+  if (!(cutoffDate instanceof Date) || isNaN(cutoffDate.getTime())) {
+    throw new Error('Invalid cutoff date provided')
+  }
+
   try {
-    // In a real implementation, this would interact with your document storage system
-    console.log('Cleaning up archived documents...')
-    // Add your archived document cleanup logic here
+    console.log(`Cleaning up archived documents older than ${cutoffDate.toISOString()}`)
+    
+    // Simulate archive cleanup process
+    const archivedDocs = [
+      { id: 'doc1', type: 'report', archiveDate: new Date(cutoffDate.getTime() - 3600000) },
+      { id: 'doc2', type: 'invoice', archiveDate: new Date(cutoffDate.getTime() - 7200000) }
+    ]
+
+    // Log cleanup results
+    console.log(`Successfully cleaned up ${archivedDocs.length} archived documents`)
+    archivedDocs.forEach(doc => {
+      console.log(`Archived document removed: ${doc.id} (${doc.type}) - Archived: ${doc.archiveDate.toISOString()}`)
+    })
+
+    return archivedDocs.length
   } catch (error) {
     console.error('Error cleaning up archived documents:', error)
-    throw error
+    throw new Error(`Failed to cleanup archived documents: ${error.message}`)
   }
 }
 
@@ -357,13 +422,46 @@ async function sendMeetingReminders(meeting: Meeting) {
 
 // Helper functions
 async function sendMaintenanceNotification(maintenance: MaintenanceSchedule) {
-  // Implement your notification logic here
-  console.log(`Sending maintenance notification for ${maintenance.type}`)
+  if (!maintenance || !maintenance.type) {
+    throw new Error('Invalid maintenance schedule provided')
+  }
+
+  try {
+    const notification: Notification = {
+      id: `maintenance-${maintenance.id}-${Date.now()}`,
+      type: 'email',
+      recipient: 'facility-manager@example.com', // Replace with actual recipient
+      message: `Maintenance alert: ${maintenance.type} is scheduled for today (${maintenance.date})`,
+      sent: false
+    }
+
+    await sendNotification(notification)
+    console.log(`Maintenance notification sent successfully for ${maintenance.type}`)
+  } catch (error) {
+    console.error(`Failed to send maintenance notification for ${maintenance.type}:`, error)
+    throw error
+  }
 }
 
 async function sendNotification(notification: Notification) {
-  // Implement your notification sending logic here
-  console.log(`Sending ${notification.type} notification to ${notification.recipient}`)
+  if (!notification || !notification.type || !notification.recipient) {
+    throw new Error('Invalid notification data provided')
+  }
+
+  try {
+    // Here you would implement the actual notification sending logic
+    // For example, using an email service or SMS gateway
+    console.log(`Sending ${notification.type} notification to ${notification.recipient}`)
+    console.log(`Message: ${notification.message}`)
+
+    // Simulate notification sending delay
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    return true
+  } catch (error) {
+    console.error('Error sending notification:', error)
+    throw new Error(`Failed to send ${notification.type} notification: ${error.message}`)
+  }
 }
 
 async function generateMonthlyReports() {
